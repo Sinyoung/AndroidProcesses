@@ -17,18 +17,23 @@
 
 package com.jaredrummler.android.processes.sample.adapter;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jaredrummler.android.processes.models.AndroidAppProcess;
 import com.jaredrummler.android.processes.sample.R;
+import com.jaredrummler.android.processes.sample.dialogs.ProcessInfoDialog;
 import com.jaredrummler.android.processes.sample.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -43,13 +48,16 @@ public class ProcessListAdapter extends BaseAdapter {
   private final Context context;
   private final Picasso picasso;
   private final int iconSize;
+  private  FragmentManager fm;
 
-  public ProcessListAdapter(Context context, List<AndroidAppProcess> processes) {
+  public ProcessListAdapter(Context context, List<AndroidAppProcess> processes,  FragmentManager fm) {
     this.context = context.getApplicationContext();
     this.inflater = LayoutInflater.from(context);
     this.iconSize = Utils.toPx(context, 46);
     this.picasso = Picasso.with(context);
     this.processes = processes;
+    this.fm = fm;
+
   }
 
   @Override public int getCount() {
@@ -64,7 +72,7 @@ public class ProcessListAdapter extends BaseAdapter {
     return position;
   }
 
-  @Override public View getView(int position, View convertView, ViewGroup parent) {
+  @Override public View getView(final int position, View convertView, ViewGroup parent) {
     final ViewHolder holder;
     if (convertView == null) {
       convertView = inflater.inflate(R.layout.list_item_process, parent, false);
@@ -72,6 +80,22 @@ public class ProcessListAdapter extends BaseAdapter {
     } else {
       holder = (ViewHolder) convertView.getTag();
     }
+
+    convertView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+
+        AndroidAppProcess process = (AndroidAppProcess)getItem(position);
+        ProcessInfoDialog dialog = new ProcessInfoDialog();
+        Bundle args = new Bundle();
+        args.putParcelable("process", process);
+        dialog.setArguments(args);
+        dialog.show(fm, "ProcessInfoDialog");
+
+
+      }
+    });
 
     AndroidAppProcess process = getItem(position);
 
@@ -88,6 +112,8 @@ public class ProcessListAdapter extends BaseAdapter {
 
     return convertView;
   }
+
+
 
   static class ViewHolder {
 

@@ -20,21 +20,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     android:orientation="vertical">
 
+  <Button
+      android:id="@+id/btn_all_processes"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Get all processes"/>
 
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+  <Button
+      android:id="@+id/btn_running_apps"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Get running apps"/>
 
-    </ListView>
-
-    <Button
-        android:layout_weight="10"
-        android:text="전체시간"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+  <Button
+      android:id="@+id/btn_foreground_apps"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Get foreground apps"/>
 
 </LinearLayout>

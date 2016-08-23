@@ -44,6 +44,7 @@ public class ProcessInfoDialog extends DialogFragment {
 
   @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
     AndroidAppProcess process = getArguments().getParcelable("process");
+
     return new AlertDialog.Builder(getActivity())
         .setTitle(Utils.getName(getActivity(), process))
         .setMessage(getProcessInfo(process))
@@ -91,10 +92,15 @@ public class ProcessInfoDialog extends DialogFragment {
       long percentOfTimeUserMode;
       long percentOfTimeKernelMode;
       if ((kernelModeTicks + userModeTicks) > 0) {
-        percentOfTimeUserMode = (userModeTicks * 100) / (userModeTicks + kernelModeTicks);
-        percentOfTimeKernelMode = (kernelModeTicks * 100) / (userModeTicks + kernelModeTicks);
-        html.p().strong("TIME EXECUTED IN USER MODE: ").append(percentOfTimeUserMode + "%").close();
-        html.p().strong("TIME EXECUTED IN KERNEL MODE: ").append(percentOfTimeKernelMode + "%").close();
+
+
+        //percentOfTimeUserMode = (userModeTicks * 100) / (userModeTicks + kernelModeTicks);
+        //percentOfTimeKernelMode = (kernelModeTicks * 100) / (userModeTicks + kernelModeTicks);
+
+        percentOfTimeUserMode = userModeTicks ;
+        percentOfTimeKernelMode = kernelModeTicks ;
+        html.p().strong("TIME EXECUTED IN USER MODE: ").append(percentOfTimeUserMode + "sec").close();
+        html.p().strong("TIME EXECUTED IN KERNEL MODE: ").append(percentOfTimeKernelMode + "sec").close();
       }
     } catch (IOException e) {
       Log.d(TAG, String.format("Error reading /proc/%d/stat.", process.pid));
